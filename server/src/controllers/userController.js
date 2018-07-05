@@ -5,8 +5,8 @@ var UserModel = require('../models/userModel')
 
 function signUp (req, res) {
   const user = new UserModel({
-    email: 'wwfdfjdsfds',
-    password: '435345534'
+    email: req.body.email,
+    password: req.body.password
   })
 
   user.save((err) => {
@@ -17,13 +17,21 @@ function signUp (req, res) {
 }
 
 function signIn (req, res) {
-  const user = {
-    id: 20,
-    email: 'wwwmario15@gmail.com'
-  }
+  UserModel.findOne({ email: req.body.email }, (err, user) => {
+    if (err) return res.status(500).send({ message: err })
+    if (!user) return res.status(404).send({ message: 'Error en el usuario o contraseña' })
 
-  return res.status(200).send({
-    token: service.createToken(user)
+    if (user.password !== req.body.password) {
+      return res.status(404).send({
+        message: 'Error en el usuario o contraseña'
+      })
+    }
+
+    req.user = user
+    res.status(200).send({
+      message: 'Te has logueado correctamente',
+      token: service.createToken(user)
+    })
   })
 }
 

@@ -1,6 +1,5 @@
 const 	express = require('express'),
 		bodyParser = require('body-parser'),
-		cors = require('cors'),
 		morgan = require('morgan')
 		routes = require('./routes/routes'),
 		mongoose = require('mongoose'),
@@ -14,8 +13,8 @@ mongoose.connect(config.db, (err, res) => {
 
 	const app = express()
 	app.use(morgan('combine'))
+	app.use(bodyParser.urlencoded({ extended: true }))
 	app.use(bodyParser.json())
-	app.use(cors())
 
 	routes(app)
 
