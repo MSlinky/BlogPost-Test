@@ -30,7 +30,7 @@ postsController.getPost = function (req, res) {
 
 postsController.updatePost = function (req, res) {
   res.send({
-    message: 'Eliminar el post id:' + req.params.id_posts
+    message: 'Actualizar el post id:' + req.params.id_posts
   })
 }
 

@@ -19,18 +19,25 @@ function signUp (req, res) {
 function signIn (req, res) {
   UserModel.findOne({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).send({ message: err })
-    if (!user) return res.status(404).send({ message: 'Error en el usuario o contraseña' })
+    if (!user) {
+      return res.status(200).send({
+        message: 'Error en el usuario o contraseña',
+        status: 0
+      })
+    }
 
     if (user.password !== req.body.password) {
-      return res.status(404).send({
-        message: 'Error en el usuario o contraseña'
+      return res.status(200).send({
+        message: 'Error en el usuario o contraseña',
+        status: 0
       })
     }
 
     req.user = user
     res.status(200).send({
       message: 'Te has logueado correctamente',
-      token: service.createToken(user)
+      token: service.createToken(user),
+      status: 1
     })
   })
 }

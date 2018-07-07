@@ -3,7 +3,8 @@ const 	express = require('express'),
 		morgan = require('morgan')
 		routes = require('./routes/routes'),
 		mongoose = require('mongoose'),
-		config = require('./config')
+		config = require('./config'),
+		cors = require('cors')
 
 mongoose.connect(config.db, (err, res) => {
 	if (err) {
@@ -12,6 +13,7 @@ mongoose.connect(config.db, (err, res) => {
 	console.log('Conexión a la base de datos establecida...')
 
 	const app = express()
+	app.use(cors())
 	app.use(morgan('combine'))
 	app.use(bodyParser.urlencoded({ extended: true }))
 	app.use(bodyParser.json())
