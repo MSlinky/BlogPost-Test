@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import Header from './components/header'
 import Footer from './components/footer'
-import './assets/css/main.css?ver=0.0.5'
+import './assets/css/main.css?ver=0.0.6'
 
 Vue.config.productionTip = false
+
+export const serverBus = new Vue()
 
 /* eslint-disable no-new */
 new Vue({

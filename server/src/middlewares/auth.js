@@ -3,9 +3,11 @@
 const services = require('../services')
 
 function isAuth (req, res, next) {
+  console.log(req.headers)
   if (!req.headers.authorization) {
-    return res.status(403).send({
-      message: 'No tiene autorización'
+    return res.status(200).send({
+      message: 'No tiene autorización',
+      status: 0
     })
   }
 

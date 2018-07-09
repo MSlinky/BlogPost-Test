@@ -16,7 +16,7 @@
               <label for="password">Contraseña</label>
             </div>
           </div>
-          <a class="waves-effect waves-light btn" @click="postPost">Iniciar</a>
+          <button class="waves-effect waves-light btn" v-on:click="postPost">Iniciar</button>
         </form>
       </div>
     </div>
@@ -24,17 +24,32 @@
 </template>
 
 <script>
+import { serverBus } from '../main'
 import axios from 'axios'
 
 export default {
+  created () {
+    if (window.localStorage.login === 'true') {
+      this.$router.push('/')
+    }
+  },
   methods: {
-    postPost () {
+    postPost (event) {
+      event.preventDefault()
+      var component = this
       axios.post('http://localhost:8081/signin', {
         email: this.email,
         password: this.password
       })
         .then(function (response) {
           console.log(response)
+          if (response.data.status === 1) {
+            window.localStorage.webToken = response.data.token
+            window.localStorage.login = true
+            component.$router.push('/')
+            serverBus.$emit('login', true)
+            // window.localStorage.webUser = component.email
+          }
         })
         .catch(function (error) {
           console.log(error)
